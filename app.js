@@ -4,8 +4,6 @@ clickButton = document.querySelector('form button');
 BASE_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/"
 fromURL = document.querySelector('.from select');
 toURL = document.querySelector('.to select');
-let amt = document.querySelector('.amount input');
-let amtVul = amt.value;
 
 for (const select of dropdowns) {
     for (let currencyCode in countryList) {
@@ -38,14 +36,18 @@ const updateFlag = (env) => {
 
 clickButton.addEventListener("click", async (evt) => {
 evt.preventDefault();
-if(amtVul === "" || amtVul < 1){
-    amtVul = 1;
-    amt.value = "1";
-}
 await fetchData();
 });
 
 const fetchData = async () => {
+    messageDetail.innerHTML = `<div class="loader"></div>`;
+    let amt = document.querySelector('.amount input');
+    let amtVul = amt.value;
+
+    if(amtVul === "" || amtVul < 1){
+        amtVul = 1;
+        amt.value = "1";
+    }
     try {
         // First API Endpoint
         const URL1 = `${BASE_URL}${fromURL.value.toLowerCase()}/${toURL.value.toLowerCase()}.json`;
@@ -70,7 +72,7 @@ const fetchData = async () => {
         const data2 = await response2.json();
         console.log('Data from second endpoint');
         let responseData = data2.rates;
-        let finalData = await calculateBal(responseData, toURL.value);
+        let finalData = await calculateBal(responseData, toURL.value, amtVul);
         }catch (error) {
             console.error('Error fetching backup data:', error);
         }
@@ -78,13 +80,17 @@ const fetchData = async () => {
     }
 }
 
-const calculateBal = async (data, value) => {
+const calculateBal = async (data, value, amtVul) => {
 if(data.hasOwnProperty(value)){
+   // let amtData = document.querySelector('.amount input');
+   // let amtVulData = amtData.value;
     const result = data[value];
     let finalResult = Math.round(result * amtVul);
+    console.table(finalResult, amtVul ,result );
     let newMessage = `${amtVul} ${fromURL.value} = ${finalResult} ${toURL.value}`;
     messageDetail.innerText = newMessage;
-}
+}};
 
-
-}
+window.addEventListener("load", () => {
+    fetchData();
+  });
