@@ -1,4 +1,5 @@
 dropdowns = document.querySelectorAll('.dropdown select');
+reverseButton = document.querySelector('form button');
 messageDetail = document.querySelector('.msg');
 clickButton = document.querySelector('form button');
 BASE_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/"
