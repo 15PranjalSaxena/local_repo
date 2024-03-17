@@ -35,8 +35,18 @@ const updateFlag = (env) => {
 }
 
 clickButton.addEventListener("click", async (evt) => {
-evt.preventDefault();
-await fetchData();
+    evt.preventDefault();
+    await fetchData();
+});
+
+reverseButton.addEventListener("click", async (evt) => {
+	evt.preventDefault();
+	let fromValue = fromURL.value;
+	let toValue = toURL.value;
+	fromURL.value = toValue;
+	toURL.value = fromValue;
+	updateFlag(fromURL);
+	updateFlag(toURL);
 });
 
 const fetchData = async () => {
