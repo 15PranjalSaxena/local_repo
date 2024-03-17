@@ -1,4 +1,5 @@
 dropdowns = document.querySelectorAll('.dropdown select');
+reverseButton = document.querySelector('form button');
 messageDetail = document.querySelector('.msg');
 clickButton = document.querySelector('form button');
 BASE_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/"
@@ -35,8 +36,18 @@ const updateFlag = (env) => {
 }
 
 clickButton.addEventListener("click", async (evt) => {
-evt.preventDefault();
-await fetchData();
+    evt.preventDefault();
+    await fetchData();
+});
+
+reverseButton.addEventListener("click", async (evt) => {
+	evt.preventDefault();
+	let fromValue = fromURL.value;
+	let toValue = toURL.value;
+	fromURL.value = toValue;
+	toURL.value = fromValue;
+	updateFlag(fromURL);
+	updateFlag(toURL);
 });
 
 const fetchData = async () => {
